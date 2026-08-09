@@ -1,139 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#111827">
-<link rel="manifest" href="manifest.json">
-<title>Time Counters</title>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111827"><link rel="manifest" href="manifest.json"><title>Time Counters</title>
 <style>
 :root{--bg:#f3f4f6;--card:#fff;--text:#111827;--muted:#6b7280;--line:#d1d5db;--blue:#2563eb;--dark:#111827;--soft:#e5e7eb;--dangerbg:#fee2e2;--danger:#b91c1c;--green:#16a34a}
-body.dark{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--line:#475569;--soft:#334155;--dangerbg:#451a1a;--danger:#fca5a5}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:var(--dark);color:#fff;padding:18px 16px;position:sticky;top:0;z-index:5}
-h1{margin:0;font-size:24px}.sub{opacity:.7;font-size:13px}
-main{max-width:620px;margin:auto;padding:14px}.add,.primary{width:100%;background:var(--blue);color:#fff;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:700;margin-bottom:12px}
-.total,.card,.panel{background:var(--card);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px #0002}
-.total{background:#dbeafe;color:#111827}.total small{display:block}.total b{font-size:25px}.overall{margin-top:10px;font-size:14px}
-.name{font-size:18px;font-weight:700;border:0;outline:0;width:52%;background:transparent;color:var(--text)}
-.time{font-size:32px;font-weight:800;margin:10px 0 2px}.target{color:var(--muted);font-size:14px;margin-bottom:10px}.percent{font-size:20px;font-weight:800;margin-bottom:8px}
-.progress{height:9px;background:var(--soft);border-radius:99px;overflow:hidden;margin-bottom:12px}.bar{height:100%;background:var(--blue)}.done{background:var(--green)}.over{background:#dc2626}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.actions{display:flex;gap:6px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-input,select{width:100%;padding:12px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;font-size:16px}
-button{border:0;border-radius:10px;padding:11px 12px;font-weight:700}.plus{background:var(--dark);color:#fff}.reset{background:var(--soft);color:var(--text)}
-.del{background:var(--dangerbg);color:var(--danger)}.edit{background:var(--soft);color:var(--text);padding:8px 11px}
-.targetBox{display:none;background:var(--bg);padding:12px;border-radius:12px;margin:10px 0}.targetBox.open{display:block}
-.targetBox label,.panel label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
-.empty{text-align:center;color:var(--muted);padding:30px}.panel h2{font-size:18px;margin:0 0 12px}
-.history-row{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}.history-row:last-child{border:0}
-.toolbar{display:flex;gap:8px;margin-bottom:12px}.toolbar button{flex:1}.secondary{background:var(--soft);color:var(--text)}
-.small{font-size:12px;color:var(--muted)}.install{display:none}
-</style>
-</head>
-<body>
-<header><h1>⏱ Time Counters</h1><div class="sub">Track work time with targets</div></header>
-<main>
-<button class="add" onclick="addCounter()">＋ Add Counter</button>
-<div class="total"><small>Total of all counters</small><b id="total">00:00</b><div class="overall" id="overall">Overall progress: 0%</div></div>
-
-<div class="panel">
-<h2>Settings</h2>
-<div class="toolbar">
-<button class="secondary" onclick="toggleDark()">🌙 Dark Mode</button>
-<button class="secondary" onclick="requestNotifications()">🔔 Notifications</button>
-</div>
-<div class="small" id="notifyStatus">Target notifications: not enabled</div>
-</div>
-
+body.dark{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--line:#475569;--soft:#334155}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,sans-serif}header{background:var(--dark);color:#fff;padding:18px 16px;position:sticky;top:0}h1{margin:0;font-size:24px}.sub{opacity:.7;font-size:13px}main{max-width:620px;margin:auto;padding:14px}.panel,.card,.total{background:var(--card);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px #0002}.total{background:#dbeafe;color:#111827}.total b{font-size:25px}.add,.plus{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px;font-weight:700}.add{width:100%;margin-top:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}input,select{width:100%;padding:12px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;font-size:16px}button{border:0;border-radius:10px;padding:10px;font-weight:700}.row{display:flex;justify-content:space-between;gap:8px;align-items:center}.name{font-size:18px;font-weight:700;border:0;outline:0;width:52%;background:transparent;color:var(--text)}.actions{display:flex;gap:6px}.edit{background:var(--soft);color:var(--text)}.del{background:var(--dangerbg);color:var(--danger)}.time{font-size:32px;font-weight:800;margin-top:10px}.target{color:var(--muted);font-size:14px;margin:3px 0 10px}.percent{font-size:20px;font-weight:800}.progress{height:9px;background:var(--soft);border-radius:99px;overflow:hidden;margin:8px 0 12px}.bar{height:100%;background:var(--blue)}.done{background:var(--green)}.over{background:#dc2626}.targetBox{display:none;background:var(--bg);padding:12px;border-radius:12px;margin:10px 0}.targetBox.open{display:block}.secondary,.reset{background:var(--soft);color:var(--text)}.toolbar{display:flex;gap:8px}.toolbar>*{flex:1}.empty{text-align:center;color:var(--muted);padding:25px}.history-row{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:9px 0}.small{font-size:12px;color:var(--muted)}
+</style></head><body><header><h1>⏱ Time Counters</h1><div class="sub">Track work time and PPT slides</div></header><main>
+<div class="panel"><h2>Add a counter</h2><div class="grid"><select id="newType"><option value="time">⏱ Time Counter</option><option value="slides">📊 PPT Slide Counter</option></select><input id="newName" placeholder="Name (optional)"></div><button class="add" onclick="addCounter()">＋ Add Counter</button></div>
+<div class="total"><small>Total of all counters</small><br><b id="total">00:00</b><div id="overall">Overall progress: 0.0%</div></div>
+<div class="panel"><h2>Settings</h2><div class="toolbar"><button class="secondary" onclick="toggleDark()">🌙 Dark Mode</button><button class="secondary" onclick="notify()">🔔 Notifications</button></div><div class="small" id="ns"></div></div>
 <div id="list"></div>
-
-<div class="panel">
-<h2>History</h2>
-<div class="toolbar">
-<button class="secondary" onclick="showHistory('day')">Today</button>
-<button class="secondary" onclick="showHistory('week')">This Week</button>
-<button class="secondary" onclick="clearHistory()">Clear</button>
-</div>
-<div id="history"></div>
-</div>
-</main>
-
-<script>
-const K="timeCountersV2", H="timeCounterHistoryV2", THEME="timeCounterTheme";
-let a=JSON.parse(localStorage.getItem(K)||"[]");
-let history=JSON.parse(localStorage.getItem(H)||"[]");
-a.forEach(c=>{if(c.target===undefined)c.target=0});
-if(localStorage.getItem(THEME)==="dark")document.body.classList.add("dark");
-
-const save=()=>localStorage.setItem(K,JSON.stringify(a));
-const saveHistory=()=>localStorage.setItem(H,JSON.stringify(history));
-function fmt(x){
- x=Math.max(0,Math.floor(x));let h=Math.floor(x/3600),m=Math.floor(x%3600/60),s=x%60;
- return h?String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0"):
- String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-}
-function esc(s){return String(s).replaceAll("&","&amp;").replaceAll('"',"&quot;").replaceAll("<","&lt;").replaceAll(">","&gt;")}
-function dateKey(){let d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-function addCounter(){a.push({n:"Counter "+(a.length+1),t:0,target:0});save();render()}
-function add(i){
- let m=+document.getElementById("m"+i).value||0,s=+document.getElementById("s"+i).value||0;
- let amount=m*60+s;if(amount<=0)return;
- a[i].t+=amount;
- history.push({date:dateKey(),name:a[i].n,seconds:amount});
- save();saveHistory();render();showHistory("day");checkTarget(i);
-}
-function setTarget(i){
- let m=+document.getElementById("tm"+i).value||0,s=+document.getElementById("ts"+i).value||0;
- a[i].target=m*60+s;save();render();
-}
-function reset(i){a[i].t=0;save();render()}
-function del(i){a.splice(i,1);save();render()}
-function rename(i,v){a[i].n=v;save()}
-function toggleEdit(i){document.getElementById("targetBox"+i).classList.toggle("open")}
-function toggleDark(){document.body.classList.toggle("dark");localStorage.setItem(THEME,document.body.classList.contains("dark")?"dark":"light")}
-function requestNotifications(){
- if(!("Notification" in window)){alert("Notifications are not supported here.");return}
- Notification.requestPermission().then(updateNotifyStatus)
-}
-function updateNotifyStatus(){document.getElementById("notifyStatus").textContent="Target notifications: "+(("Notification" in window)?Notification.permission:"unsupported")}
-function checkTarget(i){
- if(a[i].target&&a[i].t>=a[i].target&&!a[i].notified){
-   a[i].notified=true;save();
-   if("Notification" in window&&Notification.permission==="granted")new Notification("Time target reached",{body:a[i].n+" reached "+fmt(a[i].target)});
- }
- if(a[i].t<a[i].target)a[i].notified=false;
-}
-function showHistory(mode){
- let today=new Date(), start=new Date(today);
- if(mode==="week"){let day=today.getDay();start.setDate(today.getDate()-(day===0?6:day-1))}
- let rows=history.filter(x=>mode==="day"?x.date===dateKey():x.date>=start.getFullYear()+"-"+String(start.getMonth()+1).padStart(2,"0")+"-"+String(start.getDate()).padStart(2,"0"));
- let grouped={};rows.forEach(x=>grouped[x.name]=(grouped[x.name]||0)+x.seconds);
- let el=document.getElementById("history");el.innerHTML="";
- if(!rows.length){el.innerHTML='<div class="empty">No additions recorded.</div>';return}
- Object.entries(grouped).forEach(([n,s])=>{el.innerHTML+='<div class="history-row"><span>'+esc(n)+'</span><b>'+fmt(s)+'</b></div>'});
-}
-function clearHistory(){if(confirm("Clear history?")){history=[];saveHistory();showHistory("day")}}
-function render(){
- let l=document.getElementById("list");l.innerHTML="";
- if(!a.length)l.innerHTML='<div class="empty">No counters yet.<br>Tap <b>Add Counter</b>.</div>';
- a.forEach((c,i)=>{
-  let pct=c.target?Math.min(100,c.t/c.target*100):0,cls=c.target&&c.t>=c.target?"done":"";
-  if(c.target&&c.t>c.target)cls="over";
-  let status=c.target?(c.t>=c.target?"Target reached!":fmt(c.target-c.t)+" remaining"):"No target set";
-  let d=document.createElement("div");d.className="card";
-  d.innerHTML='<div class="row"><input class="name" value="'+esc(c.n)+'" onchange="rename('+i+',this.value)"><div class="actions"><button class="edit" onclick="toggleEdit('+i+')">✏ Edit</button><button class="del" onclick="del('+i+')">Delete</button></div></div>'+
-  '<div class="time">'+fmt(c.t)+'</div><div class="target">Target: '+(c.target?fmt(c.target):"Not set")+' · '+status+'</div>'+
-  (c.target?'<div class="percent">'+pct.toFixed(1)+'%</div><div class="progress"><div class="bar '+cls+'" style="width:'+pct+'%"></div></div>':'')+
-  '<div id="targetBox'+i+'" class="targetBox"><label>Edit target time</label><div class="grid"><input id="tm'+i+'" type="number" min="0" placeholder="Target minutes"><input id="ts'+i+'" type="number" min="0" placeholder="Target seconds"><button class="plus" onclick="setTarget('+i+')">Save Target</button><button class="reset" onclick="toggleEdit('+i+')">Cancel</button></div></div>'+
-  '<div class="grid"><input id="m'+i+'" type="number" min="0" placeholder="Add minutes"><input id="s'+i+'" type="number" min="0" placeholder="Add seconds"><button class="plus" onclick="add('+i+')">＋ Add Time</button><button class="reset" onclick="reset('+i+')">Reset Time</button></div>';
-  l.appendChild(d);
- });
- let total=a.reduce((x,c)=>x+c.t,0),target=a.reduce((x,c)=>x+c.target,0);
- document.getElementById("total").textContent=fmt(total);
- document.getElementById("overall").textContent="Overall progress: "+(target?Math.min(100,total/target*100).toFixed(1):"0")+"%";
-}
-render();showHistory("day");updateNotifyStatus();
-if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
-</script>
-</body>
-</html>
+<div class="panel"><h2>History</h2><div class="toolbar"><button class="secondary" onclick="historyView('day')">Today</button><button class="secondary" onclick="historyView('week')">This Week</button><button class="secondary" onclick="clearHistory()">Clear</button></div><div id="hist"></div></div>
+</main><script>
+let a=JSON.parse(localStorage.getItem("tc3")||"[]"),h=JSON.parse(localStorage.getItem("th3")||"[]");
+const save=()=>localStorage.setItem("tc3",JSON.stringify(a)),saveH=()=>localStorage.setItem("th3",JSON.stringify(h));
+function fmt(x){x=Math.floor(x);let H=Math.floor(x/3600),M=Math.floor(x%3600/60),S=x%60;return H?`${String(H).padStart(2,"0")}:${String(M).padStart(2,"0")}:${String(S).padStart(2,"0")}`:`${String(M).padStart(2,"0")}:${String(S).padStart(2,"0")}`}
+function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll('"',"&quot;")}
+function today(){let d=new Date();return d.toISOString().slice(0,10)}
+function addCounter(){let type=newType.value,n=newName.value.trim()||(type==="slides"?"PPT Slides ":"Counter ")+(a.length+1);a.push({n,type,t:0,target:0});newName.value="";save();render()}
+function add(i){let c=a[i],v=0;if(c.type==="slides"){v=Math.max(0,+document.getElementById("m"+i).value||0);if(!v)return;c.t+=v;h.push({date:today(),name:c.n,v,type:"slides"})}else{let m=+document.getElementById("m"+i).value||0,s=+document.getElementById("s"+i).value||0;v=m*60+s;if(!v)return;c.t+=v;h.push({date:today(),name:c.n,v,type:"time"})}save();saveH();render();historyView("day");check(i)}
+function setTarget(i){let c=a[i];if(c.type==="slides")c.target=Math.max(0,+document.getElementById("tm"+i).value||0);else c.target=(+document.getElementById("tm"+i).value||0)*60+(+document.getElementById("ts"+i).value||0);c.notified=false;save();render()}
+function check(i){let c=a[i];if(c.target&&c.t>=c.target&&!c.notified){c.notified=true;save();if("Notification"in window&&Notification.permission==="granted")new Notification("Target reached",{body:c.n})}if(c.t<c.target){c.notified=false;save()}}
+function reset(i){a[i].t=0;a[i].notified=false;save();render()}function del(i){a.splice(i,1);save();render()}function rename(i,v){a[i].n=v;save()}function edit(i){document.getElementById("tb"+i).classList.toggle("open")}
+function toggleDark(){document.body.classList.toggle("dark");localStorage.setItem("tcTheme",document.body.classList.contains("dark")?"dark":"light")}
+function notify(){if("Notification"in window)Notification.requestPermission().then(()=>ns.textContent="Notifications: "+Notification.permission)}
+function historyView(mode){let rows=h.filter(x=>mode==="day"?x.date===today():x.date>=new Date(Date.now()-6*864e5).toISOString().slice(0,10)),g={};rows.forEach(x=>{g[x.name]=(g[x.name]||0)+x.v});hist.innerHTML=Object.keys(g).length?Object.entries(g).map(([n,v])=>{let t=rows.find(x=>x.name===n).type;return `<div class="history-row"><span>${esc(n)}</span><b>${t==="slides"?v+" slides":fmt(v)}</b></div>`}).join(""):"<div class='empty'>No additions recorded.</div>"}
+function clearHistory(){h=[];saveH();historyView("day")}
+function render(){list.innerHTML="";if(!a.length){list.innerHTML="<div class='empty'>No counters yet.</div>";return}a.forEach((c,i)=>{let slide=c.type==="slides",p=c.target?Math.min(100,c.t/c.target*100):0,cl=c.t>=c.target&&c.target?"done":"";list.innerHTML+=`<div class="card"><div class="row"><input class="name" value="${esc(c.n)}" onchange="rename(${i},this.value)"><div class="actions"><button class="edit" onclick="edit(${i})">✏ Edit</button><button class="del" onclick="del(${i})">Delete</button></div></div><div class="time">${slide?c.t+" slides":fmt(c.t)}</div><div class="target">${slide?"📊 PPT Slide Counter":"⏱ Time Counter"} · Target: ${c.target?(slide?c.target+" slides":fmt(c.target)):"Not set"}</div>${c.target?`<div class="percent">${p.toFixed(1)}%</div><div class="progress"><div class="bar ${cl}" style="width:${p}%"></div></div>`:""}<div id="tb${i}" class="targetBox">${slide?`<input id="tm${i}" type="number" min="0" placeholder="Total slides"><button class="plus" onclick="setTarget(${i})">Save Target</button>`:`<div class="grid"><input id="tm${i}" type="number" min="0" placeholder="Target minutes"><input id="ts${i}" type="number" min="0" placeholder="Target seconds"></div><button class="plus" style="margin-top:8px;width:100%" onclick="setTarget(${i})">Save Target</button>`}</div>${slide?`<div class="grid"><input id="m${i}" type="number" min="0" placeholder="Add slides"><button class="plus" onclick="add(${i})">＋ Add Slides</button><button class="reset" onclick="reset(${i})">Reset Slides</button></div>`:`<div class="grid"><input id="m${i}" type="number" min="0" placeholder="Add minutes"><input id="s${i}" type="number" min="0" placeholder="Add seconds"><button class="plus" onclick="add(${i})">＋ Add Time</button><button class="reset" onclick="reset(${i})">Reset Time</button></div>`}</div>`});let tt=a.filter(c=>c.type!=="slides"),ss=a.filter(c=>c.type==="slides"),tm=tt.reduce((x,c)=>x+c.t,0),sm=ss.reduce((x,c)=>x+c.t,0),tgt=tt.reduce((x,c)=>x+c.target,0),sgt=ss.reduce((x,c)=>x+c.target,0);total.textContent=(tm?fmt(tm):"00:00")+(sm?" · "+sm+" slides":"");let vals=(tgt?Math.min(1,tm/tgt):0)+(sgt?Math.min(1,sm/sgt):0),n=(tgt?1:0)+(sgt?1:0);overall.textContent="Overall progress: "+(n?(vals/n*100).toFixed(1):"0.0")+"%"}
+if(localStorage.getItem("tcTheme")==="dark")document.body.classList.add("dark");render();historyView("day");ns.textContent="Notifications: "+(("Notification"in window)?Notification.permission:"unsupported");if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js");
+</script></body></html>
